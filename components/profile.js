@@ -12,7 +12,7 @@ export default function ProfileScreen({ navigation }) {
             style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
             <LinearGradient colors={["#874179", "#33246E"]} style={{ width: "100%", height: "100%", flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>{userData.name} {userData.lastName}  classid: {userData.classID}</Text>
+                <Text>{userData.name} {userData.lastName}  classid: {userData.classID}  rozvrh: {userData.subjects}</Text>
                 <Button title="logout" onPress={handleLogout} />
             </LinearGradient>
         </KeyboardAvoidingView>

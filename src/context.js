@@ -32,8 +32,8 @@ export const AuthContextProvider = ({ children }) => {
                 const json = await response.json();
                 if (json.success) {
                     await setData("account", { email: email, password: password }) // save data to "user" object
-                    await setData("user", {name: json.data.name, lastName: json.data.lastName, classID: json.data.triedaID})
-                    setUserData({name: json.data.name, lastName: json.data.lastName, classID: json.data.triedaID}) //set user data (state)
+                    await setData("user", {name: json.data.name, lastName: json.data.lastName, classID: json.data.triedaID, subjects: json.data.subjects})
+                    setUserData({name: json.data.name, lastName: json.data.lastName, classID: json.data.triedaID, subjects: json.data.subjects}) //set user data (state)
                     changeSigned(true) //change state to true (signed in)
                     return setError("")
                 }
