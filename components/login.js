@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useAuth } from '../src/context'
 import { fetchApi } from '../src/fetch'
 
-import { TextInput, TouchableOpacity, KeyboardAvoidingView, Text, StyleSheet } from 'react-native';
+import { TextInput, TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 
 
 
@@ -10,8 +10,8 @@ import LinearGradient from 'react-native-linear-gradient';
 
 
 export default function Login({ navigation }) {
-    const [email, setEmail] = React.useState("")
-    const [password, setPassword] = React.useState("")
+    const [email, setEmail] = React.useState("PeterBalaz")
+    const [password, setPassword] = React.useState("030727/4957")
     const { loginProc, error } = useAuth();
 
 
@@ -20,33 +20,30 @@ export default function Login({ navigation }) {
     }
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-        >
-            <LinearGradient colors={["#874179", "#33246E"]} style={{width: "100%", height: "100%", flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <Text style={styles.padding}>Login</Text>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EDEDE2' }}>
+                <Text style={styles.padding}>Schoolmap</Text>
                 <TextInput
                     style={styles.input}
                     onChangeText={setEmail}
                     value={email}
                     placeholder="prihlasovacie meno"
+                    placeholderTextColor="#000" 
                 />
                 <TextInput
                     style={styles.input}
                     onChangeText={setPassword}
                     value={password}
                     placeholder="heslo"
+                    placeholderTextColor="#000" 
                 />
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => changePage(email, password)}
                 >
-                    <Text style={{ color: '#2c0735' }}>Press Here</Text>
+                    <Text style={{ color: '#EDEDE2' }}>Log In</Text>
                 </TouchableOpacity>
-                <Text style={{ marginTop: 20, fontSize: 20, color: "red" }}>{error}</Text>
-            </LinearGradient>
-        </KeyboardAvoidingView>
+                <Text style={styles.eerror}>{error}</Text>
+        </View>
 
     );
 }
@@ -54,20 +51,40 @@ export default function Login({ navigation }) {
 
 const styles = StyleSheet.create({
     padding: {
-        paddingBottom: 10,
+        paddingBottom: 25,
         fontSize: 20,
-        color: '#2c0735'
+        color: '#5D5D5D',
+        fontWeight: 'bold',
+        fontSize: 30
     },
     input: {
-        margin: 12,
+        margin: 8,
         borderWidth: 1,
-        width: "75%"
+        width: "75%",
+        borderRadius: 50,
+        borderColor: '#707070',
+        borderWidth: 2,
+        paddingLeft: 20,
+        color: "black"
+
     },
     button: {
         alignItems: "center",
         backgroundColor: "#DDDDDD",
-        padding: 10
+        padding: 10,
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderRadius: 50,
+        backgroundColor: '#5D5D5D',
+        marginTop: 20, 
+        fontWeight: 'bold',
+        fontSize: 15
     },
+    eerror: {
+        marginTop: 20, 
+        fontSize: 20, 
+        color: "red"
+    }
 
 });
 
