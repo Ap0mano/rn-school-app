@@ -1,36 +1,19 @@
 import * as React from 'react';
-import { Button, ScrollView, Text, View, StyleSheet, Dimensions } from 'react-native';
+import { TouchableOpacity, ScrollView, Text, View, StyleSheet, Dimensions } from 'react-native';
 import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 import { useAuth } from '../src/context'
 import Svg, {
-    Circle,
-    Ellipse,
-    G,
-    TSpan,
-    TextPath,
-    Path,
-    Polygon,
-    Polyline,
     Line,
     Rect,
-    Use,
-    Image,
-    Symbol,
-    Defs,
-    LinearGradient,
-    RadialGradient,
-    Stop,
-    ClipPath,
-    Pattern,
-    Mask,
+ 
 } from 'react-native-svg';
 
 
 export default function ProfileScreen({ navigation }) {
     const { userData, handleLogout, schoolMap } = useAuth();
+    const [classIndex, setIndex] = React.useState(0)
     const windowWidth = Dimensions.get('window').width;
     let vbb = `0 0 ${windowWidth} 200`
-    // console.log(userData.subjects[3].split(":")[1].trim())
     let _8 = []
     let tempspace8 = (windowWidth - 90) / 8
     let tempspace9 = (windowWidth - 100) / 9
@@ -44,13 +27,24 @@ export default function ProfileScreen({ navigation }) {
     for (let i = 0; i < 9; i++) {
         _9.length > 0 ? _9.push([_9[i - 1][1] + 10, _9[i - 1][1] + 10 + tempspace9, i]) : _9.push([10, 10 + tempspace9, i])
     }
-    const currClass = [1,4] //schoolMap[userData.subjects[3].split(":")[1].trim()]
-    console.log(currClass)
+    const currClass = schoolMap[userData.subjects[classIndex].split(":")[1].trim()]
+
     return (
         <ScrollView style={{ flex: 1, backgroundColor: '#EDEDE2' }}>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: 30, paddingTop: 30 }}>
-                <Text>{userData.name} {userData.lastName}  classid: {userData.classID}  {"\n"}rozvrh: {"\n"}{userData.subjects.join("\n")}</Text>
-                <Text>{userData.name} {userData.lastName}  classid: {userData.classID}  {"\n"}rozvrh: {"\n"}{userData.subjects.join("\n")}</Text>
+            <Text>{userData.name} {userData.lastName}  classid: {userData.classID} </Text>
+
+                {
+                    userData.subjects.map((ele, index) => (
+                        <TouchableOpacity
+                    style={styles.button}
+
+                        onPress={x => setIndex(index)}
+                    >
+                        <Text style={{ color: '#EDEDE2' }}>{ele}</Text>
+                    </TouchableOpacity>
+                    ))
+                }
                 <ReactNativeZoomableView
                     maxZoom={1.5}
                     minZoom={0.5}
@@ -133,53 +127,45 @@ export default function ProfileScreen({ navigation }) {
 
                     </Svg>
                 </ReactNativeZoomableView>
-
-                <Text>{userData.name} {userData.lastName}  classid: {userData.classID}  {"\n"}rozvrh: {"\n"}{userData.subjects.join("\n")}</Text>
-                <Button title="logout" onPress={handleLogout} />
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={handleLogout}
+                >
+                    <Text style={{ color: '#EDEDE2' }}>Log Out</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
-        // <ScrollView contentContainerStyle={styles.contentContainer} >
-        //     <Text>{userData.name} {userData.lastName}  classid: {userData.classID}  {"\n"}rozvrh: {"\n"}{userData.subjects.join("\n")}</Text>
-        //     <Text>{userData.name} {userData.lastName}  classid: {userData.classID}  {"\n"}rozvrh: {"\n"}{userData.subjects.join("\n")}</Text>
-        //     <Text>{userData.name} {userData.lastName}  classid: {userData.classID}  {"\n"}rozvrh: {"\n"}{userData.subjects.join("\n")}</Text>
-        //     <Text>{userData.name} {userData.lastName}  classid: {userData.classID}  {"\n"}rozvrh: {"\n"}{userData.subjects.join("\n")}</Text>
-        //     <Text>{userData.name} {userData.lastName}  classid: {userData.classID}  {"\n"}rozvrh: {"\n"}{userData.subjects.join("\n")}</Text>
-        //     <Text>{userData.name} {userData.lastName}  classid: {userData.classID}  {"\n"}rozvrh: {"\n"}{userData.subjects.join("\n")}</Text>
-        //     <Text>{userData.name} {userData.lastName}  classid: {userData.classID}  {"\n"}rozvrh: {"\n"}{userData.subjects.join("\n")}</Text>
-
-        //     <Button title="logout" onPress={handleLogout} />
-        // </ScrollView>
     );
 }
 
 
 const styles = StyleSheet.create({
-    contentContainer: {
-        flex: 1, flexGrow: 1, alignItems: 'center', backgroundColor: '#EDEDE2'
+
+    button: {
+        alignItems: "center",
+        backgroundColor: "#DDDDDD",
+        padding: 10,
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderRadius: 50,
+        backgroundColor: '#5D5D5D',
+        marginTop: 20, 
+        fontWeight: 'bold',
+        fontSize: 15
+    },
+    classButton: {
+        alignItems: "center",
+        backgroundColor: "#DDDDDD",
+        padding: 10,
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderRadius: 50,
+        backgroundColor: '#5D5D5D',
+        marginTop: 20, 
+        fontWeight: 'bold',
+        fontSize: 15
     }
+
 });
 
 
-
-/*
- <Svg height="100%" width="100%" viewBox="0 0 100 100">
-                <Circle
-                    cx="50"
-                    cy="50"
-                    r="45"
-                    stroke="blue"
-                    strokeWidth="2.5"
-                    fill="green"
-                />
-                <Rect
-                    x="0"
-                    y="0"
-                    width="100%"
-                    height="70"
-                    stroke="red"
-                    strokeWidth="2"
-                    fill="yellow"
-                />
-            </Svg>
-
-*/

@@ -6,7 +6,7 @@ const storage = new MMKV()
 export const setData = async (key, value) => {
     try {
         // const jsonValue = JSON.stringify(value)adb device
-        storage.set('user', JSON.stringify(value))
+        storage.set(key, JSON.stringify(value))
     } catch (e) {
         // saving error
     }
@@ -14,7 +14,7 @@ export const setData = async (key, value) => {
 
 export const getData = async (key) => {
     try {
-        const jsonUser = storage.getString('user') // { 'username': 'Marc', 'age': 21 }
+        const jsonUser = storage.getString(key) // { 'username': 'Marc', 'age': 21 }
         const userObject = JSON.parse(jsonUser)
         return userObject != null ? userObject : null;
     } catch (e) {
