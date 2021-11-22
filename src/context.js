@@ -10,8 +10,8 @@ export const AuthContextProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true)
     const [userData, setUserData] = useState({});
     const [error, setError] = useState("");
-    const [schoolMap, setMap] = useState({"NEJ0": [0, 0],"ZÁSTUPKIŇA": [0, 1],"PSYCHOLOGIČKA": [0, 2],"ANJ0": [0, 3],"RIADITEĽŇA": [0, 4],"SEKRETARIÁT": [0, 5],"ZBOROVŇA": [0, 6],"ANJ1": [0, 7],"ANJ2": [0, 8],"FYZ+LAB": [1, 0],"KABINET CHE/BIO": [1, 1],"KABINET ANJ": [1, 2],"BIO+LAB": [1, 3],"BIO2":[1, 4],"GEO":[1, 5],"MAT1":[1, 6],"IKT":[1, 7],"DEJ":[1, 8],"CHE LAB":[2, 0],"VIDEO":[2, 1],"CHE2":[2, 2],"MAT2":[2, 3],"NEJ2":[2, 4],"SJL2":[2, 5],"SJL1":[2, 6],"SJL":[2, 7],"MALÁ TELOCVIČŇA":[3, 0],"INF2":[3, 1],"ANJ3":[3, 2],"RUJ/FRA":[3, 3],"NEJ3":[3, 4],"SEKUNDA":[3, 5],"PRIMA":[3, 6],"KVARTA":[3, 7],"TERCIA":[3, 8]})
-
+    const [schoolMap, setMap] = useState({"NEJ0": [0, 0],"ZÁSTUP": [0, 1],"PSYCH": [0, 2],"ANJ0": [0, 3],"RIAD": [0, 4],"SEK": [0, 5],"ZBOR": [0, 6],"ANJ1": [0, 7],"ANJ2": [0, 8],"FYZ1": [1, 0],"FYZ2": [1, 0], "KABINET KCHE/KBIO": [1, 1],"KANJ": [1, 2],"BIO1": [1, 3],"BIO2":[1, 4],"GEO":[1, 5],"MAT1":[1, 6],"IKT":[1, 7],"DEJ":[1, 8],"CHE1":[2, 0],"VID":[2, 1],"CHE2":[2, 2],"MAT2":[2, 3],"NEJ2":[2, 4],"SJL2":[2, 5],"SJL1":[2, 6],"SJL":[2, 7],"MTV":[3, 0],"INF2":[3, 1],"ANJ3":[3, 2],"RUJ/FRA":[3, 3],"NEJ3":[3, 4],"S":[3, 5],"P":[3, 6],"K":[3, 7],"T":[3, 8]})
+    
     const handleLogout = async () => {
         await removeData("user") //remove "user" object from storage
         changeSigned(false) //change state to false (logged out)
@@ -36,6 +36,7 @@ export const AuthContextProvider = ({ children }) => {
                     await setData("user", {name: json.data.name, lastName: json.data.lastName, classID: json.data.triedaID, subjects: json.data.subjects})
                     setUserData({name: json.data.name, lastName: json.data.lastName, classID: json.data.triedaID, subjects: json.data.subjects}) //set user data (state)
                     changeSigned(true) //change state to true (signed in)
+
                     return setError("")
                 }
                 setError("Incorrect name or password")
@@ -54,8 +55,13 @@ export const AuthContextProvider = ({ children }) => {
         setLoading(false) //disable loading
     }
 
-    useEffect(() => {
+    useEffect(async () => {
         getInitAuth(); //on app load check user data + show splashscreen
+        let accountObj = await getData("account") //check storage for login data
+        if (accountObj) {
+            loginProc(accountObj.email, accountObj.password)
+        }
+
     }, []);
 
     return (

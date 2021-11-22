@@ -10,8 +10,8 @@ import LinearGradient from 'react-native-linear-gradient';
 
 
 export default function Login({ navigation }) {
-    const [email, setEmail] = React.useState("PeterBalaz")
-    const [password, setPassword] = React.useState("030727/4957")
+    const [email, setEmail] = React.useState("")
+    const [password, setPassword] = React.useState("")
     const { loginProc, error } = useAuth();
 
 
