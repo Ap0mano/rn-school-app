@@ -75,8 +75,6 @@ export default function ProfileScreen({ navigation }) {
                                 strokeWidth="1"
                                 fill={x[2] == currClass[1] && 3 == currClass[0] ? "green" : "blue"}
                                 onPress={() => alert(`Poschodie: 3, dvere: ${x[2]+1}, ucebna aoao`)}
-
-
                             />
                         ))}
                         <Line x1="0" y1="50" x2={windowWidth} y2="50" stroke="red" strokeWidth="2" />
