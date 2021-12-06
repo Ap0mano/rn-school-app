@@ -2,11 +2,8 @@ import * as React from 'react';
 import { useAuth } from '../src/context'
 import { fetchApi } from '../src/fetch'
 
-import { TextInput, TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import { TextInput, TouchableOpacity, View, Text, StyleSheet, Image } from 'react-native';
 
-
-
-import LinearGradient from 'react-native-linear-gradient';
 
 
 export default function Login({ navigation }) {
@@ -21,7 +18,7 @@ export default function Login({ navigation }) {
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EDEDE2' }}>
-                <Text style={styles.padding}>Schoolmap</Text>
+                <Image style={styles.loginImage} source={require('../src/img/schoolmap2.png')} />
                 <TextInput
                     style={styles.input}
                     onChangeText={setEmail}
@@ -66,7 +63,6 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         paddingLeft: 20,
         color: "black"
-
     },
     button: {
         alignItems: "center",
@@ -84,6 +80,10 @@ const styles = StyleSheet.create({
         marginTop: 20, 
         fontSize: 20, 
         color: "red"
+    },
+    loginImage: {
+        width: 80, 
+        height: 80
     }
 
 });
