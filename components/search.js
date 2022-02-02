@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { TouchableOpacity, ScrollView, Text, View, StyleSheet, Dimensions } from 'react-native';
+import { TouchableOpacity, ScrollView, Text, View, StyleSheet, Dimensions, TextInput } from 'react-native';
 import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 import { useAuth } from '../src/context'
 import Svg, {
@@ -9,7 +9,7 @@ import Svg, {
 } from 'react-native-svg';
 
 
-export default function ProfileScreen({ navigation }) {
+export default function SearchScreen({ navigation }) {
     const { userData, handleLogout, schoolMap, changeScreen, currScreen } = useAuth();
     const [classIndex, setIndex] = React.useState(0)
 
@@ -24,19 +24,21 @@ export default function ProfileScreen({ navigation }) {
     const currClass = schoolMap[userData.subjects[classIndex].split(":")[1].trim()]
 
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: '#EDEDE2', height: "100%" }}>
-            <View style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 30, marginTop: 30, height: "100%" }}>
+        <ScrollView style={{ flex: 1, backgroundColor: '#EDEDE2' }}>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 30, marginTop: 30 }}>
                 {/* <Text>{userData.name} {userData.lastName}  classid: {userData.classID} </Text> */}
+                <TextInput
+                    style={styles.input}
+                    placeholder="Search"
+                    placeholderTextColor="#000"
+                    // value={props.searchPhrase}
+                    // onChangeText={props.setSearchPhrase}
+                    onFocus={() => {
+                        // props.setClicked(true);
+                    }}
+                />
 
-                {
-                    userData.subjects.map((ele, index) => (
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={x => setIndex(index)} >
-                            <Text style={{ color: '#EDEDE2' }}>{ele}</Text>
-                        </TouchableOpacity>
-                    ))
-                }
+
                 <ReactNativeZoomableView
                     maxZoom={1.5}
                     minZoom={0.5}
@@ -44,7 +46,7 @@ export default function ProfileScreen({ navigation }) {
                     initialZoom={1}
                     bindToBorders={true}
                     style={{
-                        flex: 1, justifyContent: 'center', alignItems: 'center', width: windowWidth
+                        flex: 1, justifyContent: 'center', alignItems: 'center', width: windowWidth, marginTop: "80%"
                     }}>
                     <Svg height="200px" width="100%" viewBox={vbb} style={{ marginTop: 10 }}>
                         <Rect
@@ -120,11 +122,11 @@ export default function ProfileScreen({ navigation }) {
                     </Svg>
                 </ReactNativeZoomableView>
                 <TouchableOpacity
-                        style={styles.button}
-                        onPress={changeScreen}
-                    >
-                        <Text style={{ color: '#EDEDE2' }}>{currScreen == "profile" ? "Serach" : "Rozvrh"}</Text>
-                    </TouchableOpacity>
+                    style={styles.button}
+                    onPress={changeScreen}
+                >
+                    <Text style={{ color: '#EDEDE2' }}>{currScreen == "profile" ? "Serach" : "Rozvrh"}</Text>
+                </TouchableOpacity>
 
                 {/* <TouchableOpacity
                     style={styles.button}
@@ -150,7 +152,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#5D5D5D',
         marginTop: 10,
         fontWeight: 'bold',
-        fontSize: 15,
+        fontSize: 15
     },
     classButton: {
         alignItems: "center",
@@ -163,7 +165,18 @@ const styles = StyleSheet.create({
         marginTop: 20,
         fontWeight: 'bold',
         fontSize: 15
-    }
+    },
+    input: {
+        margin: 8,
+        borderWidth: 1,
+        width: "95%",
+        borderRadius: 50,
+        borderColor: '#707070',
+        borderWidth: 2,
+        paddingLeft: 20,
+        color: "black",
+        fontSize: 20
+      },
 });
 
 
