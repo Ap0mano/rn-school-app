@@ -21,7 +21,7 @@ export default function ProfileScreen({ navigation }) {
     for (let i = 0; i < 9; i++) {
         _9.length > 0 ? _9.push([_9[i - 1][1] + 10, _9[i - 1][1] + 10 + tempspace9, i]) : _9.push([10, 10 + tempspace9, i])
     }
-    const currClass = schoolMap[userData.subjects[classIndex].split(":")[1].trim()]
+    const currClass = schoolMap?.[userData?.subjects[classIndex]?.split(":")[1].trim()]
 
     return (
         <ScrollView style={{ flex: 1, backgroundColor: '#EDEDE2', height: "100%" }}>
@@ -65,7 +65,7 @@ export default function ProfileScreen({ navigation }) {
                                 height="-38"
                                 stroke="rgb(93, 93, 93)"
                                 strokeWidth="2"
-                                fill={x[2] == currClass[1] && 3 == currClass[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
+                                fill={x[2] == currClass?.[1] && 3 == currClass?.[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
                                 onPress={() => alert(`Poschodie: 3, dvere: ${x[2] + 1}, učebňa ${findClass(schoolMap, 3, x[2])}`)}
                             />
                         ))}
@@ -79,7 +79,7 @@ export default function ProfileScreen({ navigation }) {
                                 height="-38"
                                 stroke="rgb(93, 93, 93)"
                                 strokeWidth="2"
-                                fill={x[2] == currClass[1] && 2 == currClass[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
+                                fill={x[2] == currClass?.[1] && 2 == currClass?.[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
                                 onPress={() => alert(`Poschodie: 2, dvere: ${x[2] + 1}, učebňa ${findClass(schoolMap, 2, x[2])}`)}
 
                             />
@@ -93,7 +93,7 @@ export default function ProfileScreen({ navigation }) {
                                 height="-38"
                                 stroke="rgb(93, 93, 93)"
                                 strokeWidth="2"
-                                fill={x[2] == currClass[1] && 1 == currClass[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
+                                fill={x[2] == currClass?.[1] && 1 == currClass?.[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
                                 onPress={() => alert(`Poschodie: 1, dvere: ${x[2] + 1}, učebňa ${findClass(schoolMap, 1, x[2])}`)}
 
                             />
@@ -108,7 +108,7 @@ export default function ProfileScreen({ navigation }) {
                                 height="-38"
                                 stroke="rgb(93, 93, 93)"
                                 strokeWidth="2"
-                                fill={x[2] == currClass[1] && 0 == currClass[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
+                                fill={x[2] == currClass?.[1] && 0 == currClass?.[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
                                 onPress={() => {
                                     alert(`Poschodie: 0, dvere: ${x[2] + 1}, učebňa ${findClass(schoolMap, 0, x[2])}`)
                                 }}

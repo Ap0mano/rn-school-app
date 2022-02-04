@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { TouchableOpacity, ScrollView, Text, View, StyleSheet, Dimensions, TextInput } from 'react-native';
+import { TouchableOpacity, ScrollView, Text, FlatList, View, StyleSheet, Dimensions, TextInput } from 'react-native';
 import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 import { useAuth } from '../src/context'
 import Svg, {
@@ -8,10 +8,17 @@ import Svg, {
     Rect,
 } from 'react-native-svg';
 
+const Item = ({ item, onPress, backgroundColor, textColor }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
+        <Text style={[styles.title, textColor]}>{item}</Text>
+    </TouchableOpacity>
+);
+
 
 export default function SearchScreen({ navigation }) {
-    const { userData, handleLogout, schoolMap, changeScreen, currScreen } = useAuth();
+    const { userData, SearchClasses, schoolMap, changeScreen, currScreen } = useAuth();
     const [classIndex, setIndex] = React.useState(0)
+    const [classesObj, setClassesObj] = React.useState(SearchClasses)
 
     const windowWidth = Dimensions.get('window').width;
     let vbb = `0 0 ${windowWidth} 200`
@@ -21,7 +28,14 @@ export default function SearchScreen({ navigation }) {
     for (let i = 0; i < 9; i++) {
         _9.length > 0 ? _9.push([_9[i - 1][1] + 10, _9[i - 1][1] + 10 + tempspace9, i]) : _9.push([10, 10 + tempspace9, i])
     }
-    const currClass = schoolMap[userData.subjects[classIndex].split(":")[1].trim()]
+
+    const renderItem = ({ item }) => {
+        return (
+            <TouchableOpacity onPress={() => setIndex(getIndexByName(item, schoolMap))}>
+                <Text style={[styles.title]}>{item}</Text>
+            </TouchableOpacity>
+        );
+    };
 
     return (
         <ScrollView style={{ flex: 1, backgroundColor: '#EDEDE2' }}>
@@ -31,12 +45,17 @@ export default function SearchScreen({ navigation }) {
                     style={styles.input}
                     placeholder="Search"
                     placeholderTextColor="#000"
-                    // value={props.searchPhrase}
-                    // onChangeText={props.setSearchPhrase}
-                    onFocus={() => {
-                        // props.setClicked(true);
-                    }}
+                    onChangeText={e => setClassesObj(search(e, Object.keys(SearchClasses)))}
+
                 />
+                <View style={{ maxHeight: 200, minWidth: "100%", alignItems: "center" }}>
+                    <ScrollView>
+                        <FlatList
+                            data={Object.keys(classesObj)}
+                            renderItem={renderItem}
+                        />
+                    </ScrollView>
+                </View>
 
 
                 <ReactNativeZoomableView
@@ -46,7 +65,7 @@ export default function SearchScreen({ navigation }) {
                     initialZoom={1}
                     bindToBorders={true}
                     style={{
-                        flex: 1, justifyContent: 'center', alignItems: 'center', width: windowWidth, marginTop: "80%"
+                        flex: 1, justifyContent: 'center', alignItems: 'center', width: windowWidth, marginTop: "5%"
                     }}>
                     <Svg height="200px" width="100%" viewBox={vbb} style={{ marginTop: 10 }}>
                         <Rect
@@ -67,7 +86,7 @@ export default function SearchScreen({ navigation }) {
                                 height="-38"
                                 stroke="rgb(93, 93, 93)"
                                 strokeWidth="2"
-                                fill={x[2] == currClass[1] && 3 == currClass[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
+                                fill={x[2] == classIndex?.[1] && 3 == classIndex?.[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
                                 onPress={() => alert(`Poschodie: 3, dvere: ${x[2] + 1}, učebňa ${findClass(schoolMap, 3, x[2])}`)}
                             />
                         ))}
@@ -81,7 +100,7 @@ export default function SearchScreen({ navigation }) {
                                 height="-38"
                                 stroke="rgb(93, 93, 93)"
                                 strokeWidth="2"
-                                fill={x[2] == currClass[1] && 2 == currClass[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
+                                fill={x[2] == classIndex?.[1] && 2 == classIndex?.[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
                                 onPress={() => alert(`Poschodie: 2, dvere: ${x[2] + 1}, učebňa ${findClass(schoolMap, 2, x[2])}`)}
 
                             />
@@ -95,7 +114,7 @@ export default function SearchScreen({ navigation }) {
                                 height="-38"
                                 stroke="rgb(93, 93, 93)"
                                 strokeWidth="2"
-                                fill={x[2] == currClass[1] && 1 == currClass[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
+                                fill={x[2] == classIndex?.[1] && 1 == classIndex?.[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
                                 onPress={() => alert(`Poschodie: 1, dvere: ${x[2] + 1}, učebňa ${findClass(schoolMap, 1, x[2])}`)}
 
                             />
@@ -110,7 +129,7 @@ export default function SearchScreen({ navigation }) {
                                 height="-38"
                                 stroke="rgb(93, 93, 93)"
                                 strokeWidth="2"
-                                fill={x[2] == currClass[1] && 0 == currClass[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
+                                fill={x[2] == classIndex?.[1] && 0 == classIndex?.[0] ? "rgb(93, 93, 93)" : "rgb(237, 237, 226)"}
                                 onPress={() => {
                                     alert(`Poschodie: 0, dvere: ${x[2] + 1}, učebňa ${findClass(schoolMap, 0, x[2])}`)
                                 }}
@@ -127,17 +146,12 @@ export default function SearchScreen({ navigation }) {
                 >
                     <Text style={{ color: '#EDEDE2' }}>{currScreen == "profile" ? "Serach" : "Rozvrh"}</Text>
                 </TouchableOpacity>
-
-                {/* <TouchableOpacity
-                    style={styles.button}
-                    onPress={handleLogout}
-                >
-                    <Text style={{ color: '#EDEDE2' }}>Log Out</Text>
-                </TouchableOpacity> */}
             </View>
         </ScrollView>
     );
 }
+
+
 
 
 const styles = StyleSheet.create({
@@ -176,7 +190,15 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         color: "black",
         fontSize: 20
-      },
+    },
+    item: {
+        padding: 5,
+        marginVertical: 2,
+        marginHorizontal: 16,
+    },
+    title: {
+        fontSize: 32,
+    },
 });
 
 
@@ -190,4 +212,22 @@ function findClass(obj, x1, x2) {
         }
     })
     return c_name
+}
+
+
+function search(trieda, allTriedy) {
+    let found = {}
+    for (let i in allTriedy) {
+        if (allTriedy[i].toLocaleLowerCase().includes(trieda.toLocaleLowerCase())) {
+            found[allTriedy[i]] = [i]
+        }
+    }
+    return found
+}
+
+
+function getIndexByName(trieda, allTriedy) {
+    for (let i in allTriedy) {
+        if (trieda == allTriedy[i][2]) return allTriedy[i]
+    }
 }
