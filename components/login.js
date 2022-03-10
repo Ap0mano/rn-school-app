@@ -18,26 +18,27 @@ export default function Login({ navigation }) {
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EDEDE2' }}>
-                <Image style={styles.loginImage} source={require('../src/img/schoolmap2.png')} />
+                {/*<Image style={styles.loginImage} source={require('../src/img/schoolmap2.png')} />*/}
+                <Text style={{  fontSize: 30, color: '#2D2D2D', fontFamily: "Poppins-Bold"}} >Schoolmap</Text>
                 <TextInput
                     style={styles.input}
                     onChangeText={setEmail}
                     value={email}
                     placeholder="prihlasovacie meno"
-                    placeholderTextColor="#000" 
+                    placeholderTextColor="#828282" 
                 />
                 <TextInput
                     style={styles.input}
                     onChangeText={setPassword}
                     value={password}
                     placeholder="heslo"
-                    placeholderTextColor="#000" 
+                    placeholderTextColor="#828282" 
                 />
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => changePage(email, password)}
                 >
-                    <Text style={{ color: '#EDEDE2' }}>Log In</Text>
+                    <Text style={{ color: '#FFF', fontFamily: "Poppins-Bold" }}>Log In</Text>
                 </TouchableOpacity>
                 <Text style={styles.eerror}>{error}</Text>
         </View>
@@ -55,24 +56,27 @@ const styles = StyleSheet.create({
         fontSize: 30
     },
     input: {
-        margin: 8,
-        borderWidth: 1,
-        width: "75%",
-        borderRadius: 50,
-        borderColor: '#707070',
+        margin: 5,
         borderWidth: 2,
+        width: "85%",
+        borderRadius: 50,
+        borderColor: '#2D2D2D',
+        borderWidth: 3,
         paddingLeft: 20,
-        color: "black"
+        color: "#3E3E3E",
+        fontSize: 19, 
+        fontFamily: "Poppins-Regular", 
+        height: 55
     },
     button: {
         alignItems: "center",
-        backgroundColor: "#DDDDDD",
+        backgroundColor: "#2D2D2D",
         padding: 10,
         paddingLeft: 15,
         paddingRight: 15,
         borderRadius: 50,
-        backgroundColor: '#5D5D5D',
-        marginTop: 20, 
+        backgroundColor: '#2D2D2D',
+        marginTop: 20,
         fontWeight: 'bold',
         fontSize: 15
     },
